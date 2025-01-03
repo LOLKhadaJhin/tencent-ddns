@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: tencent-ddns
+  mail:
+    host: smtp.qq.com
+    port: 587     # 465 端口是SSL传输 587
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
+server:
+  port: 5555
+  servlet:
+    context-path: /ddns
+tencent:
+  region: ap-shanghai
+  subDomain: www

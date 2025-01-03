@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>DDNS Information</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .info-container {
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            margin-top: 0;
+        }
+
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border: 1px solid #ddd;
+            white-space: pre-wrap; /* CSS3 */
+            white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+            white-space: -pre-wrap; /* Opera 4-6 */
+            white-space: -o-pre-wrap; /* Opera 7 */
+            word-wrap: break-word; /* Internet Explorer 5.5+ */
+        }
+    </style>
+</head>
+<body>
+<h1>DDNS Information</h1>
+
+<div id="ip-list-container" class="info-container">
+    <h2>您当前需要解析的IP</h2>
+    <pre id="ip-list"></pre>
+</div>
+
+<div id="domain-list-container" class="info-container">
+    <h2>您所拥有的域名</h2>
+    <pre id="domain-list"></pre>
+</div>
+
+<div id="domain-container" class="info-container">
+    <h2>您当前需要解析的域名</h2>
+    <pre id="domain"></pre>
+</div>
+
+<div id="record-list-container" class="info-container">
+    <h2>您的域名解析信息</h2>
+    <pre id="record-list"></pre>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Function to fetch and display data from a given URL into a target element
+        function fetchDataAndDisplay(url, targetId) {
+            fetch(url)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok ' + response.statusText);
+                    }
+                    return response.text(); // Get the response as text
+                })
+                .then(data => {
+                    // Insert the fetched data into the target element
+                    document.getElementById(targetId).textContent = data || 'No data available';
+                })
+                .catch(error => {
+                    console.error('There has been a problem with your fetch operation:', error);
+                    document.getElementById(targetId).textContent = 'Failed to load data.';
+                });
+        }
+
+        // URLs for the three endpoints
+        const urls = [
+            {url: '/ddns/domain', targetId: 'domain'},
+            {url: '/ddns/domain/list', targetId: 'domain-list'},
+            {url: '/ddns/ip/list', targetId: 'ip-list'}, // Note: The second URL is different from the first one in your original message.
+            {url: '/ddns/record/list', targetId: 'record-list'}
+        ];
+
+        // Fetch and display data for each endpoint
+        urls.forEach(item => fetchDataAndDisplay(item.url, item.targetId));
+    });
+</script>
+</body>
+</html>
